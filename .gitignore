@@ -1,0 +1,26 @@
+*~
+*.class*
+.project
+.#*
+.git
+*#
+*.rc
+
+#os x stuff
+*Thumbs.db*
+*.DS_Store
+
+test-output
+build
+doc
+docs
+bin
+target
+*.jar
+*.jpg
+*.txt
+*.ipr
+*.iml
+*.iws
+*.iml
+.idea
