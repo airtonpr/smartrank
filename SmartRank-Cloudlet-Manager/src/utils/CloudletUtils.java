@@ -198,7 +198,7 @@ public class CloudletUtils {
         return buffer;  
  }
 	
-	public static String writeFileOnDisc(String dir, byte[] readBytes, String extension)
+	public static String writeFileOnDisc(String dir, byte[] readBytes, String name, String extension)
 			throws FileNotFoundException, IOException {
 		
 		File directory = new File(dir);
@@ -206,7 +206,14 @@ public class CloudletUtils {
 			directory.mkdirs();
 		}
 		
-		String imageName = new RandomString(5).nextString() + extension;
+		String imageName = null;
+		if (name != null) {
+			imageName = name + extension;
+		}else{
+			imageName = new RandomString(5).nextString() + extension;
+		}
+		
+		
 		File file = new File(dir + imageName);
 		FileOutputStream out = new FileOutputStream(file, true);
 		out.write(readBytes);

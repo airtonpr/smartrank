@@ -56,9 +56,9 @@ public class CloudletTransmitter {
 	public static String TRAINING_DATABASE_IMAGE_LIST = PATTERN_DATA_PATH + "facedata.xml";
 	
 	
-	
-	private static final String VIRUS_DB_PATH = SMARTRANK_PATH + "virusDB/";
-	private static final String VIRUS_FOLDER_TO_SCAN = SMARTRANK_PATH + "virusFolderToScan/";
+	public static final String VIRUS_SCANNING_PATH = SMARTRANK_PATH + "virusscanning/";
+	private static final String VIRUS_DB_PATH = VIRUS_SCANNING_PATH + "virusDB/";
+	private static final String VIRUS_FOLDER_TO_SCAN = VIRUS_SCANNING_PATH + "virusFolderToScan/";
 	
 	
 	protected  List<String> detectedImageNames = new ArrayList<String>();
@@ -141,22 +141,24 @@ public class CloudletTransmitter {
 		long startTime,endTime;
 		
 //		clearFile();
-		
+		int i = 1;
 		while(true){
 			
 			// RECEIVE FROM CLIENT
-			connectionSocket = welcomeSocket.accept();
-			System.out.println("CLOUDLET - Connection accepted... CLIENT-CLOUDLET");
-			bytesFromClient = readBytesFromClient();
-			System.out.println("CLOUDLET - Bytes received: " + bytesFromClient);
-
-			
+			//	connectionSocket = welcomeSocket.accept();
+			//		System.out.println("CLOUDLET - Connection accepted... CLIENT-CLOUDLET");
+			//		bytesFromClient = readBytesFromClient();
+			//		System.out.println("CLOUDLET - Bytes received: " + bytesFromClient);
+			//
+			//			System.err.println("Count: "+ (i++));
 			
 //			String rootPath = new File("").getAbsolutePath().replace('\\', '/');
 //			bytesFromClient = CloudletUtils.imageToBytes(rootPath+"/group17.jpg");
 			
-//			detectAndDistributeForRecognition(bytesFromClient);
-			detectAndDistributeForScanning(bytesFromClient);
+			//detectAndDistributeForRecognition(bytesFromClient);
+			
+			//Este método está pegando os arquivos localmente e não recebendo do cliente mobile, os arquivos a serem scaneados serão zipados e enviados ao server para processamento
+			detectAndDistributeForScanning(null, true);
 		}
 		
 	}
@@ -166,7 +168,7 @@ public class CloudletTransmitter {
 			throws IOException, InterruptedException {
 		long startTime,endTime;
 		//DETECT FACES
-		String originalImage = CloudletUtils.writeFileOnDisc(RECEIVED_IMAGES_DIR, bytesFromClient, ".jpg");
+		String originalImage = CloudletUtils.writeFileOnDisc(RECEIVED_IMAGES_DIR, bytesFromClient, null, ".jpg");
 		
 		startTime = System.currentTimeMillis();
 		List<String> imagesNamesList = FaceDetectionUtils.dedectFacesCropAndSave(RECEIVED_IMAGES_DIR + originalImage);
@@ -176,20 +178,24 @@ public class CloudletTransmitter {
 		/*To each face it calculates the best server and sends it for recognition*/
 		
 		distributeAndReturnResult(imagesNamesList, RECOG_TYPE);
-		
-		
 	}
 	
-	private void detectAndDistributeForScanning(byte[] bytesFromClient)
+	private void detectAndDistributeForScanning(byte[] bytesFromClient, boolean pickUpLocalZipInsteadAndroidZip)
 			throws IOException, InterruptedException {
 		long startTime,endTime;
 		
 		startTime = System.currentTimeMillis();
-		//UNZIP FILE
 		
-		System.out.println("Unzipping...");
-		String zipFile = CloudletUtils.writeFileOnDisc(VIRUS_FOLDER_TO_SCAN, bytesFromClient, ".zip");
-		Zipper.unzip(VIRUS_FOLDER_TO_SCAN, zipFile);
+		if (!pickUpLocalZipInsteadAndroidZip) {
+			//UNZIP FILE
+			String zipFile = CloudletUtils.writeFileOnDisc(VIRUS_FOLDER_TO_SCAN, bytesFromClient, "virusFolderToScan", ".zip");
+			System.out.println("Unzipping...file " + zipFile);
+			Zipper.unzip(VIRUS_FOLDER_TO_SCAN, zipFile);
+			System.out.println("Deleting...file " + zipFile);
+			deleteFile(VIRUS_FOLDER_TO_SCAN + zipFile);
+		}
+		
+		
 		
 	//	deleteFile(VIRUS_FOLDER_TO_SCAN + zipFile);
 		
@@ -204,7 +210,7 @@ public class CloudletTransmitter {
 		/*To each face it calculates the best server and sends it for recognition*/
 		
 		distributeAndReturnResult(filesToScan, SCAN_TYPE);
-		writeFile("ZIP/UNZIP TIME "+ (endTime - startTime));
+		//writeFile("ZIP/UNZIP TIME "+ (endTime - startTime));
 	}
 	
 	
@@ -270,9 +276,11 @@ public class CloudletTransmitter {
 			InterruptedException {
 		
 		if (config.isSmartStrategy()) {
+			System.out.println("Smart Strategy: Enabled");
 			this.rankServers();
 			fillServersItensNumberByTotalCost(itensListToSend.size(), serversList);
 		}else{
+			System.out.println("Smart Strategy: Disabled");
 			fillServersItensNumberEqualy(itensListToSend.size(), serversList);
 		}               
 	
@@ -282,7 +290,7 @@ public class CloudletTransmitter {
 		
 		ArrayList<String> nameItensPerServer = null;
 		String zipFileName = null;
-		for (VirtualMachineServer server : firstServerGroupList) {
+		for (VirtualMachineServer server : serversList) {
 			nameItensPerServer = new ArrayList<String>();
 			for (int i = index; i < (index + server.getTotalItensToProcess()); i++) {
 				//criando um array de itens para cada server
@@ -290,9 +298,10 @@ public class CloudletTransmitter {
 			}
 			
 			if (type == SCAN_TYPE) {
-				zipFileName = Zipper.zipFiles(nameItensPerServer, VIRUS_FOLDER_TO_SCAN);
+				zipFileName = Zipper.zipFiles(nameItensPerServer, VIRUS_FOLDER_TO_SCAN, VIRUS_FOLDER_TO_SCAN);
+				System.out.println("ZIPANDO "+zipFileName + " PARA MANDAR PARA O SERVER");
 			}else if (type == RECOG_TYPE){
-				zipFileName = Zipper.zipFiles(nameItensPerServer, RECEIVED_IMAGES_DIR);
+				zipFileName = Zipper.zipFiles(nameItensPerServer, RECEIVED_IMAGES_DIR,RECEIVED_IMAGES_DIR);
 			}
 			
 			index = index + server.getTotalItensToProcess();
@@ -396,7 +405,7 @@ public class CloudletTransmitter {
 			
 			cleanDirContent(DETECTED_IMAGES_DIR);
 			cleanDirContent(RECEIVED_IMAGES_DIR);
-	//		cleanDirContent(VIRUS_FOLDER_TO_SCAN);
+			cleanDirContent(VIRUS_FOLDER_TO_SCAN);
 
 	    } catch (Exception e) {
 	    	System.out.println(e.getMessage());

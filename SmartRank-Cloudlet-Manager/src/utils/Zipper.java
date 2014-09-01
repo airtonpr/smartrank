@@ -60,32 +60,32 @@ public class Zipper {
 		out.close();
 	}
 	
-	public static void unzip(String dir, String zipFileName) {
-		Enumeration entries;
-
-		try {
-			ZipFile zipFile = new ZipFile(dir+zipFileName);
-			entries = zipFile.entries();
-			while (entries.hasMoreElements()) {
-				ZipEntry entry = (ZipEntry) entries.nextElement();
-				if (entry.isDirectory()) {
-//					System.err.println("Descompactando diretório: "
-//							+ entry.getName());
-					(new File(entry.getName())).mkdir();
-					continue;
-				}
-//				System.out.println("Descompactando arquivo:" + entry.getName());
-				copyInputStream(
-						zipFile.getInputStream(entry),
-						new BufferedOutputStream(new FileOutputStream(dir+entry
-								.getName())));
-			}
-			zipFile.close();
-		} catch (IOException ioe) {
-//			System.err.println("Erro ao descompactar:" + ioe.getMessage());
-			return;
+	 public static ArrayList<String>  unzip(String dir, String zipFileName) {
+			Enumeration entries;
+			ArrayList<String> array = new ArrayList<String>();
+		    try {
+		      ZipFile zipFile = new ZipFile(dir+zipFileName);
+		      entries = zipFile.entries();
+		      while(entries.hasMoreElements()) {
+		        ZipEntry entry = (ZipEntry)entries.nextElement();
+		        String fileName = entry.getName();
+				if(entry.isDirectory()) {
+//	          System.err.println("Descompactando diretório: " + dir + fileName);
+		          (new File(dir + fileName)).mkdir();
+		          continue;
+		        }
+				array.add(fileName);
+				//	        System.out.println("Descompactando arquivo:" + dir + fileName);
+		        copyInputStream(zipFile.getInputStream(entry),
+		           new BufferedOutputStream(new FileOutputStream(dir + fileName)));
+		      }
+		      zipFile.close();
+		    } catch (IOException ioe) {
+	      System.err.println("Erro ao descompactar:" + ioe.getMessage());
+		      return null;
+		    }
+		    return array;
 		}
-	}
 
 	public static ArrayList<String> listFiles(String dir) throws IOException {
 		File file = new File(dir);
@@ -99,31 +99,44 @@ public class Zipper {
 		return names;
 	}
 
-	public static String zipFiles(ArrayList<String> files, String dirDestiny) {
-		//String zipName = new RandomString(5).nextString() + ".zip";
-		String zipName = "virusFolderToScan.zip";
-		try {
-			FileOutputStream fos = new FileOutputStream(dirDestiny + zipName);
-			ZipOutputStream zos = new ZipOutputStream(fos);
+	public static String zipFiles(ArrayList<String> files, String zipDirDestiny, String zipDirOrigin){
+		String zipName = new RandomString(5).nextString() + ".zip";
+	      try {
+	    	  final int BUFFER = 2048;
+	         BufferedInputStream origin = null;
+	         FileOutputStream dest = new 
+	           FileOutputStream(zipDirDestiny+zipName);
+	         ZipOutputStream out = new ZipOutputStream(new 
+	           BufferedOutputStream(dest));
+	         //out.setMethod(ZipOutputStream.DEFLATED);
+	         byte data[] = new byte[BUFFER];
+	         // get a list of files from current directory
 
-			for (String file : files) {
-				addToZipFile(dirDestiny + file, zos);
-			}
-
-			zos.close();
-			fos.close();
-
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return dirDestiny + zipName;
+	         for (String file : files) {
+	        	 //	            System.out.println("Adding: "+file);
+	            FileInputStream fi = new 
+	              FileInputStream(zipDirOrigin+file);
+	            origin = new 
+	              BufferedInputStream(fi, BUFFER);
+	            ZipEntry entry = new ZipEntry(file);
+	            out.putNextEntry(entry);
+	            int count;
+	            while((count = origin.read(data, 0, 
+	              BUFFER)) != -1) {
+	               out.write(data, 0, count);
+	            }
+	            origin.close();
+	         }
+	         out.close();
+	      } catch(Exception e) {
+	         e.printStackTrace();
+	      }
+	      return zipDirDestiny+zipName;
 	}
 
 	private static void addToZipFile(String fileName, ZipOutputStream zos) throws FileNotFoundException, IOException {
 
-		System.out.println("Writing '" + fileName + "' to zip file");
+	//	System.out.println("Writing '" + fileName + "' to zip file");
 
 		File file = new File(fileName);
 		FileInputStream fis = new FileInputStream(file);
