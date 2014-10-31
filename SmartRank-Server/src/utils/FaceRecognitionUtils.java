@@ -846,7 +846,7 @@ public class FaceRecognitionUtils {
 
     final FaceRecognitionUtils faceRecognition = new FaceRecognitionUtils();
     CapacityEvaluator.createListFileWithPicturesNameAndCreateEigenfaces();
-    faceRecognition.learn("./pattern_data/training_faces_image_list.txt");
+    faceRecognition.learn("./smartrank/facerecognition/pattern_data/training_faces_image_list.txt");
     
     
 //    faceRecognition.recognizeFileList("./pattern_data/training_faces_image_list.txt");

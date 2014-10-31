@@ -42,7 +42,6 @@ public class TCPServerManager implements Runnable {
 	public static void main(String[] args) throws FileNotFoundException, IOException {
 		Configuration config = Configuration.getConfiguration();
 		new Thread(new TCPServerManager(config.getServerCapacity(), config.getServerName(), config.getServerLoad())).start();
-		new Thread(new TCPServerManager(config.getServerCapacity(), config.getServerName(), config.getServerLoad())).start();
 	}
 
 	@Override

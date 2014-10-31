@@ -66,9 +66,9 @@ public class CapacityEvaluator {
 	}
 	
 	public static void createListFileWithPicturesNameAndCreateEigenfaces() {
-		String rootPath = "E:/WORKSPACES/WORKSPACE_MCC_NEW/private_mcc_vision/FaceDetectionAndRecognitionServer/";
+		String rootPath = "E:/WORKSPACES/smartrank_repos/SmartRank-Server/";
 		String images_dir = rootPath + "training_images/";
-		String fileOfImagesName =  rootPath + "pattern_data/training_faces_image_list.txt";
+		String fileOfImagesName =  rootPath + "smartrank/facerecognition/pattern_data/training_faces_image_list.txt";
 		File arquivo = new File(images_dir);
 		File[] file = arquivo.listFiles();
 

@@ -68,6 +68,7 @@ public class Zipper {
 		}
 		return names;
 	}
+	
 	 public static ArrayList<String>  unzip(String dir, String zipFileName) {
 			Enumeration entries;
 			ArrayList<String> array = new ArrayList<String>();
@@ -78,52 +79,32 @@ public class Zipper {
 		        ZipEntry entry = (ZipEntry)entries.nextElement();
 		        String fileName = entry.getName();
 				if(entry.isDirectory()) {
-//	          System.err.println("Descompactando diretório: " + fileName);
-		          (new File(fileName)).mkdir();
+					//    System.err.println("Descompactando diretório: " + dir + fileName);
+		          (new File(dir + fileName)).mkdir();
 		          continue;
 		        }
 				array.add(fileName);
-//	        System.out.println("Descompactando arquivo:" + fileName);
+				//    System.out.println("Descompactando arquivo:" + dir + fileName);
 		        copyInputStream(zipFile.getInputStream(entry),
-		           new BufferedOutputStream(new FileOutputStream(fileName)));
+		           new BufferedOutputStream(new FileOutputStream(dir + fileName)));
 		      }
 		      zipFile.close();
 		    } catch (IOException ioe) {
-//	      System.err.println("Erro ao descompactar:" + ioe.getMessage());
+		    	//      System.err.println("Erro ao descompactar:" + ioe.getMessage());
 		      return null;
 		    }
 		    return array;
 		}
 		
 	
-	 public static String zipFiles(ArrayList<String> files, String dirDestiny, String zipName) {
-			try {
-				FileOutputStream fos = new FileOutputStream(dirDestiny + zipName);
-				ZipOutputStream zos = new ZipOutputStream(fos);
-
-				for (String file : files) {
-					addToZipFile(dirDestiny + file, zos);
-				}
-
-				zos.close();
-				fos.close();
-
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			return dirDestiny + zipName;
-		}
 
 		public static void main (String argv[]) {
-			zipDir("smartrank/", "virusFolderToScan.zip", "smartrank/virusFolderToScan/");
+			zipDir("smartrank/", "virusFolderToScan.zip", "smartrank/virusscanning/virusFolderToScan/");
 		}
 
 		
 		
 		public static void zipDir(String zipDirDestiny, String zipName, String dirToZip){
-
 		      try {
 		    	  final int BUFFER = 2048;
 		         BufferedInputStream origin = null;
@@ -138,7 +119,7 @@ public class Zipper {
 		         String files[] = dir.list();
 
 		         for (int i=0; i<files.length; i++) {
-		            System.out.println("Adding: "+files[i]);
+		        	 //     System.out.println("Adding: "+files[i]);
 		            FileInputStream fi = new 
 		              FileInputStream(dirToZip+files[i]);
 		            origin = new 
@@ -152,15 +133,44 @@ public class Zipper {
 		            }
 		            origin.close();
 		         }
-		         
-		         
-		         
-		         
 		         out.close();
 		      } catch(Exception e) {
 		         e.printStackTrace();
 		      }
-		   
+		}
+		
+		public static void zipFiles(ArrayList<String> files, String zipDirDestiny, String zipDirOrigin, String zipName){
+
+		      try {
+		    	  final int BUFFER = 2048;
+		         BufferedInputStream origin = null;
+		         FileOutputStream dest = new 
+		           FileOutputStream(zipDirDestiny+zipName);
+		         ZipOutputStream out = new ZipOutputStream(new 
+		           BufferedOutputStream(dest));
+		         //out.setMethod(ZipOutputStream.DEFLATED);
+		         byte data[] = new byte[BUFFER];
+		         // get a list of files from current directory
+
+		         for (String file : files) {
+		        	 //    System.out.println("Adding: "+file);
+		            FileInputStream fi = new 
+		              FileInputStream(zipDirOrigin+file);
+		            origin = new 
+		              BufferedInputStream(fi, BUFFER);
+		            ZipEntry entry = new ZipEntry(file);
+		            out.putNextEntry(entry);
+		            int count;
+		            while((count = origin.read(data, 0, 
+		              BUFFER)) != -1) {
+		               out.write(data, 0, count);
+		            }
+		            origin.close();
+		         }
+		         out.close();
+		      } catch(Exception e) {
+		         e.printStackTrace();
+		      }
 		}
 
 	private static void addToZipFile(String fileName, ZipOutputStream zos) throws FileNotFoundException, IOException {

@@ -40,11 +40,19 @@ public class TCPServerDetectionAndRecognitionWithSocket implements Runnable {
 
 	static int PORT_SERVER = 123;
 
-	public static void main(String[] args) {
-		TCPServerDetectionAndRecognitionWithSocket c = new TCPServerDetectionAndRecognitionWithSocket(PORT_SERVER);
-		new Thread(c).start();
-	}
+//		public static void main(String[] args) {
+//			TCPServerDetectionAndRecognitionWithSocket c = new TCPServerDetectionAndRecognitionWithSocket(PORT_SERVER);
+//		new Thread(c).start();
+//	}
+	
 
+	public static void main(String[] args) {
+		// RECOG
+		System.out.println("EXPERIMENTO DO ANDROIDX86 - UBUNTU.");
+		FaceRecognitionUtils f = new FaceRecognitionUtils();
+		List<RecognitionResult> recognitionResult = f.recognizeFileList("/smartrank/facerecognition/imagesDB/imagesforrecognition.txt");
+		
+	}
 
 	public TCPServerDetectionAndRecognitionWithSocket(){}
 	

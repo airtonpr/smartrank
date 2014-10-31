@@ -41,6 +41,7 @@ public class TCPServerRecognition implements Runnable {
 		new Thread(new TCPServerRecognition("server")).start();
 	}
 
+	
 	public TCPServerRecognition(String name) {
 		faceRecognition = new FaceRecognitionUtils();
 		this.name = name + "-recognition";

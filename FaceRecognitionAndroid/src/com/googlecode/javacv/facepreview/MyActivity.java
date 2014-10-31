@@ -7,7 +7,10 @@ import android.R;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
+import android.widget.EditText;
+import android.widget.TextView;
 
 public class MyActivity extends Activity {
 
@@ -17,7 +20,7 @@ public class MyActivity extends Activity {
 
 	private ManageFile manageFile;
 
-	// MyThread myThread = new MyThread();
+	private TextView tv;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +28,13 @@ public class MyActivity extends Activity {
 		setContentView(R.layout.activity_list_item);
 		manageFile = new ManageFile("Log-recog-local.txt");
 		System.out.println("Starting ");
-		// new Thread(myThread).start();
+	
+		new Thread(new MyThreadCPUMonit()).start();
+		new Thread(new MyThreadMemoryMonit()).start();
+		
+	//	tv = (TextView) findViewById(R.id.textView1);
+		//tv.setMovementMethod(new ScrollingMovementMethod());
+		
 		ProgressDialog d = new ProgressDialog(MyActivity.this);
 
 		d.setMessage("Recognizing the image...Please wait!!");

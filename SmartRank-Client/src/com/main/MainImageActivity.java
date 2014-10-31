@@ -93,8 +93,8 @@ public class MainImageActivity extends Activity {
 		}
 
 	//	manageFile.clearFile();
-		// sendConstantly();
-		 sendOncePerTime();
+		 sendConstantly();
+		// sendOncePerTime();
 
 	}
 
@@ -111,7 +111,7 @@ public class MainImageActivity extends Activity {
 	}
 
 	private void sendConstantly() {
-		for (int i = 0; i < 50; i++) {
+		for (int i = 0; i < 30; i++) {
 			new DownloadAndSaveTask().execute("");
 			try {
 				Thread.sleep(2000);

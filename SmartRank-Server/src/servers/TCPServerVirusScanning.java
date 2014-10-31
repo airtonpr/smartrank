@@ -26,7 +26,7 @@ public class TCPServerVirusScanning  implements Runnable {
 	private String[] signatureDB;
 	private String serverName;
 	static Configuration config = null;
-	private static final int SIGNATURE_SIZE = 461;
+	private static final int SIGNATURE_SIZE = 1348;
 
 	private static final String SMARTRANK_PATH = "smartrank/";
 	private static final String VIRUS_DIR_HOME = SMARTRANK_PATH + "virusscanning/";
@@ -67,17 +67,17 @@ public class TCPServerVirusScanning  implements Runnable {
 		}
 	}
 	
-//	public static void main(String[] args) {
-//		VirusScanning virusScanner = new VirusScanning();
-//		long startTime = System.currentTimeMillis();
-//		int result = virusScanner.localScanFolder();
-//		System.out.println("Number of viruses found: " + result);
-//		System.out.println("Time: " + (System.currentTimeMillis() - startTime));
-//	}
-	
 	public static void main(String[] args) {
-		new Thread(new TCPServerVirusScanning(config.getServerName())).start();
+		TCPServerVirusScanning virusScanner = new TCPServerVirusScanning(null);
+		long startTime = System.currentTimeMillis();
+		int result = virusScanner.localScanFolder();
+		System.out.println("Number of viruses found: " + result);
+		System.out.println("Time: " + (System.currentTimeMillis() - startTime));
 	}
+	
+//	public static void main(String[] args) {
+//		new Thread(new TCPServerVirusScanning(config.getServerName())).start();
+//	}
 	
 	private void startRPCServer() throws IOException, ShutdownSignalException, ConsumerCancelledException, InterruptedException{
 		System.out.println("SERVER - Virus Scanning Service - Asynchronous Server started...");
@@ -107,7 +107,7 @@ public class TCPServerVirusScanning  implements Runnable {
 
 			//Descompactar
 			files = Zipper.unzip(VIRUS_FOLDER_TO_SCAN, zipFileName);
-			System.out.println(files);
+			//System.out.println(files);
 			//executar varredura
 			
 			int result = localScanFolder();
@@ -152,7 +152,7 @@ public class TCPServerVirusScanning  implements Runnable {
 
 		// int howManyFiles = (int) ( filesToScan.length / nrClones ); //
 		// Integer division, some files may be not considered
-		int howManyFiles = (int) (filesToScan.length / 1); // Integer division,
+		int howManyFiles = (int) (filesToScan.length); // Integer division,
 															// some files may be
 															// not considered
 		int start = (cloneId + 1) * howManyFiles; // Since cloneId starts from
@@ -167,7 +167,7 @@ public class TCPServerVirusScanning  implements Runnable {
 		System.out.println("Checking files: " + start + "-" + end);
 
 		for (int i = start; i < end; i++) {
-			// System.out.println( "Checking file: " + i);
+//			 System.out.println( "Checking file: " + i);
 			if (heavyCheckIfFileVirus(filesToScan[i])) {
 				// if (checkIfFileVirus(filesToScan[i])) {
 				// System.out.println( "Virus found");
@@ -194,87 +194,89 @@ public class TCPServerVirusScanning  implements Runnable {
 		}
 		return nrViruses;
 	}
-
-	/**
-	 * Compare ONLY the initial bytes with the virus signatures.
-	 * 
-	 * @param virus
-	 * @return
-	 */
-	private boolean checkIfFileVirus(File virus) {
-		MessageDigest md;
-
-		try {
-			md = MessageDigest.getInstance("SHA-1");
-			char[] buffer = new char[SIGNATURE_SIZE];
-			// System.out.println( "Checking file " + virus.getName());
-			FileReader currentFile = new FileReader(virus);
-			int totalRead = 0;
-			int read = 0;
-			while (totalRead != SIGNATURE_SIZE) {
-				read = currentFile.read(buffer, totalRead, buffer.length
-						- totalRead);
-				totalRead += read;
-			}
-			currentFile.close();
-			if (totalRead > 0) {
-				String signature = byteArrayToHexString(md.digest(new String(
-						buffer).getBytes()));
-				return isInVirusDB(signature);
-			}
-			currentFile.close();
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return false;
-	}
-
-	/**
-	 * Check all the subsequences of length SIGNATURE_SIZE for the virus
-	 * signature.
-	 * 
-	 * @param virus
-	 * @return
-	 */
+	
 	private boolean heavyCheckIfFileVirus(File virus) {
-		MessageDigest md;
+	MessageDigest md;
 
-		try {
-			md = MessageDigest.getInstance("SHA-1");
+	try {
+		md = MessageDigest.getInstance("SHA-1");
 
-			int length = (int) virus.length();
+		int length = (int) virus.length();
 
-			char[] buffer = new char[length];
-			// System.out.println( "Checking file " + virus.getName());
-			// System.out.println( "Length of file " + length);
-			FileReader currentFile = new FileReader(virus);
-			int totalRead = 0;
-			totalRead = currentFile.read(buffer, totalRead, length - totalRead);
-			currentFile.close();
-			if (totalRead > 0) {
-				// for (int i = 0; i < (length - SIGNATURE_SIZE); i++) {
-				// // for (int i = 0; i < 200; i++) {
-				String signature = new String(buffer);
-				signature = byteArrayToHexString(md
-						.digest(signature.getBytes()));
-				if (isInVirusDB(signature))
-					return true;
-				// }
+		char[] buffer = new char[length];
+//		Log.i(TAG, "Checking file " + virus.getName());
+//		Log.i(TAG, "Length of file " + length);
+		FileReader currentFile = new FileReader(virus);
+		int totalRead =	 0;
+		int read = 0;
+		do {
+			totalRead += read;
+			read = currentFile.read(buffer, totalRead, length - totalRead);
+		} while ( read > 0 );
+		currentFile.close();
+		if (totalRead > 0) {
+			for (int i = 0; i < (length - SIGNATURE_SIZE); i++) {
+				char[] tempBuff = new char[SIGNATURE_SIZE];
+				System.arraycopy(buffer, i, tempBuff, 0, SIGNATURE_SIZE);
+				String signature = new String(tempBuff);
+				signature = byteArrayToHexString(md.digest(signature.getBytes()));
+				if ( isInVirusDB(signature) )
+					return  true;
 			}
-			currentFile.close();
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
-		return false;
+		currentFile.close();
+	} catch (NoSuchAlgorithmException e) {
+		e.printStackTrace();
+	} catch (IOException e) {
+		e.printStackTrace();
+	} catch (Exception e) {
+		e.printStackTrace();
 	}
+	return false;
+}
+
+//	/**
+//	 * Check all the subsequences of length SIGNATURE_SIZE for the virus
+//	 * signature.
+//	 * 
+//	 * @param virus
+//	 * @return
+//	 */
+//	private boolean heavyCheckIfFileVirus(File virus) {
+//		MessageDigest md;
+//
+//		try {
+//			md = MessageDigest.getInstance("SHA-1");
+//
+//			int length = (int) virus.length();
+//
+//			char[] buffer = new char[length];
+//			// System.out.println( "Checking file " + virus.getName());
+//			// System.out.println( "Length of file " + length);
+//			FileReader currentFile = new FileReader(virus);
+//			int totalRead = 0;
+//			totalRead = currentFile.read(buffer, totalRead, length - totalRead);
+//			currentFile.close();
+//			if (totalRead > 0) {
+//				 for (int i = 0; i < (length - SIGNATURE_SIZE); i++) {
+//				// // for (int i = 0; i < 200; i++) {
+//				String signature = new String(buffer);
+//				signature = byteArrayToHexString(md
+//						.digest(signature.getBytes()));
+//				if (isInVirusDB(signature))
+//					return true;
+//			}
+//			}
+//			currentFile.close();
+//		} catch (NoSuchAlgorithmException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return false;
+//	}
 
 
 	private boolean isInVirusDB(String signature) {
