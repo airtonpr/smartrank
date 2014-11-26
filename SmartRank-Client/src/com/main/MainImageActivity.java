@@ -26,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.communication.TCPClientAndroid;
+import com.example.smartrank_client.R;
 import com.utils.ManageFile;
 import com.utils.Zipper;
 
