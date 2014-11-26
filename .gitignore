@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
@@ -41,3 +42,31 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+=======
+*~
+*.class*
+.project
+.#*
+.git
+*#
+*.rc
+
+#os x stuff
+*Thumbs.db*
+*.DS_Store
+
+test-output
+build
+doc
+docs
+bin
+target
+*.jar
+*.jpg
+*.txt
+*.ipr
+*.iml
+*.iws
+*.iml
+.idea
+>>>>>>> 80da3013db3e59ed20cceda5e881cfb958021f9f
