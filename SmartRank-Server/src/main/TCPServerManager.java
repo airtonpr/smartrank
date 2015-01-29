@@ -6,6 +6,7 @@ import java.io.IOException;
 import servers.TCPServerDetection;
 import servers.TCPServerForPing;
 import servers.TCPServerRecognition;
+import servers.TCPServerSimplifiedRecognition;
 import servers.TCPServerVirusScanning;
 import utils.Configuration;
 
@@ -15,7 +16,7 @@ import utils.Configuration;
  */
 public class TCPServerManager implements Runnable {
 
-	private TCPServerRecognition tcpServerForImageRecognition;
+	private TCPServerSimplifiedRecognition tcpServerRecognition;
 	private TCPServerDetection tcpServerForImageDetection;
 	private TCPServerForPing tcpServerForPing;
 	private TCPServerVirusScanning tcpServerVirusScanning;
@@ -33,7 +34,7 @@ public class TCPServerManager implements Runnable {
 	}
 	
 	public TCPServerManager(double serverCapacity, String name, double load) {
-		tcpServerForImageRecognition = new TCPServerRecognition(name);
+		tcpServerRecognition = new TCPServerSimplifiedRecognition(name);
 		tcpServerForImageDetection = new TCPServerDetection(name);
 		tcpServerForPing = new TCPServerForPing(name, serverCapacity, load);
 		tcpServerVirusScanning = new TCPServerVirusScanning(name);
@@ -46,7 +47,7 @@ public class TCPServerManager implements Runnable {
 
 	@Override
 	public void run() {
-		new Thread(tcpServerForImageRecognition).start();
+		new Thread(tcpServerRecognition).start();
 		new Thread(tcpServerForImageDetection).start();
 		new Thread(tcpServerForPing).start();
 		new Thread(tcpServerVirusScanning).start();

@@ -10,6 +10,23 @@ public class RecognitionResult {
 	private int faceIndex;
 	private double least_squared_distance;
 	private float confidence;
+	private String textualResult;
+
+	public RecognitionResult(String textualResult) {
+		super();
+		this.textualResult = textualResult;
+	}
+
+	
+	public String getTextualResult() {
+		return textualResult;
+	}
+
+
+	public void setTextualResult(String textualResult) {
+		this.textualResult = textualResult;
+	}
+
 
 	public int getFaceIndex() {
 		return faceIndex;

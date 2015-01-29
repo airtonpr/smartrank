@@ -140,22 +140,22 @@ public class CloudletTransmitter {
 		byte[] bytesFromClient;
 		long startTime,endTime;
 		
-//		clearFile();
+		clearFile();
 		int i = 1;
 		while(true){
 			
 			// RECEIVE FROM CLIENT
-			//	connectionSocket = welcomeSocket.accept();
-			//		System.out.println("CLOUDLET - Connection accepted... CLIENT-CLOUDLET");
-			//		bytesFromClient = readBytesFromClient();
-			//		System.out.println("CLOUDLET - Bytes received: " + bytesFromClient);
-			//
-			//			System.err.println("Count: "+ (i++));
+//				connectionSocket = welcomeSocket.accept();
+//				System.out.println("CLOUDLET - Connection accepted... CLIENT-CLOUDLET");
+//					bytesFromClient = readBytesFromClient();
+//					System.out.println("CLOUDLET - Bytes received: " + bytesFromClient);
+//			
+//					System.err.println("Count: "+ (i++));
 			
-//			String rootPath = new File("").getAbsolutePath().replace('\\', '/');
-//			bytesFromClient = CloudletUtils.imageToBytes(rootPath+"/group17.jpg");
+			//	String rootPath = new File("").getAbsolutePath().replace('\\', '/');
+			//	bytesFromClient = CloudletUtils.fileToBytes(rootPath+"/picture15.png");
 			
-			//detectAndDistributeForRecognition(bytesFromClient);
+			//	detectAndDistributeForRecognition(bytesFromClient);
 			
 			//Este método está pegando os arquivos localmente e não recebendo do cliente mobile, os arquivos a serem scaneados serão zipados e enviados ao server para processamento
 			detectAndDistributeForScanning(null, true);

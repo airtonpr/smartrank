@@ -1,15 +1,12 @@
 package com.googlecode.javacv.facepreview;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import android.R;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
-import android.widget.EditText;
 import android.widget.TextView;
 
 public class MyActivity extends Activity {

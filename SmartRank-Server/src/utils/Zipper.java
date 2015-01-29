@@ -86,7 +86,8 @@ public class Zipper {
 				array.add(fileName);
 				//    System.out.println("Descompactando arquivo:" + dir + fileName);
 		        copyInputStream(zipFile.getInputStream(entry),
-		           new BufferedOutputStream(new FileOutputStream(dir + fileName)));
+		         //  new BufferedOutputStream(new FileOutputStream(dir + fileName))); // com o caminho completo
+		        new BufferedOutputStream(new FileOutputStream(fileName)));
 		      }
 		      zipFile.close();
 		    } catch (IOException ioe) {

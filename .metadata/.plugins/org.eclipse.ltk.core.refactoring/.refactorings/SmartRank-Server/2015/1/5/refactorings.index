@@ -1,0 +1,10 @@
+1422446390671	Copy package
+1422446397325	Delete element
+1422446510749	Copy compilation unit
+1422450537936	Extract method 'recognize'
+1422450688087	Rename local variable 'dir'
+1422450699450	Rename local variable 'file'
+1422478455019	Rename local variable 'string'
+1422479366373	Rename field 'tcpServerForImageRecognition'
+1422482137285	Delete element
+1422482160620	Copy file

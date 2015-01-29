@@ -715,7 +715,7 @@ public class FaceRecognitionUtils {
    */
   private RecognitionResult findNearestNeighbor(float projectedTestFace[], FloatPointer pConfidencePointer) {
 	  
-	  RecognitionResult recognitionResult = new RecognitionResult();
+	  RecognitionResult recognitionResult = new RecognitionResult(null);
 	  
 	  double leastDistSq = Double.MAX_VALUE;
     int i = 0;
