@@ -1,0 +1,18 @@
+package myteste;
+
+import japa.parser.JavaParser;
+import japa.parser.ast.CompilationUnit;
+import japa.parser.ast.body.MethodDeclaration;
+import japa.parser.ast.visitor.VoidVisitorAdapter;
+
+import java.io.FileInputStream;
+
+public class Test2 {
+
+	private void firstMethod2() {
+		String a = methodOne();
+		String b = methodTwo(a);
+		methodThree();
+	}
+
+}

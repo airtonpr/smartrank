@@ -11,4 +11,7 @@
 <fullyQualifiedTypeName name="com.sun.org.apache.xalan.internal.xsltc.compiler.util.ResultTreeType"/>
 <fullyQualifiedTypeName name="utils.RecognitionResult"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="de.tlabs.thinkAir.queens.NQueens"/>
+<fullyQualifiedTypeName name="java.lang.System"/>
+<fullyQualifiedTypeName name="java.lang.Thread"/>
 </qualifiedTypeNameHistroy>

@@ -20,6 +20,21 @@
 		<item value="433" key="DIALOG_X_ORIGIN"/>
 		<item value="113" key="DIALOG_Y_ORIGIN"/>
 	</section>
+	<section name="ExternalProjectImportWizard">
+		<item value="false" key="WizardProjectsImportPage.STORE_NESTED_PROJECTS"/>
+		<item value="false" key="WizardProjectsImportPage.STORE_COPY_PROJECT_ID"/>
+		<item value="false" key="WizardProjectsImportPage.STORE_ARCHIVE_SELECTED"/>
+		<list key="WizardProjectsImportPage.STORE_DIRECTORIES">
+			<item value="C:\WORKSPACES\smartrank\ThinkAir-Library"/>
+			<item value="C:\WORKSPACES\smartrank\ThinkAir-Client"/>
+			<item value="C:\WORKSPACES\smartrank\ToyRMI"/>
+			<item value="C:\WORKSPACES\smartrank\GranularityAdvisor"/>
+			<item value="C:\WORKSPACES\smartrank\MethodGranularityAdvisor"/>
+		</list>
+		<list key="WizardProjectsImportPage.STORE_ARCHIVES">
+			<item value=""/>
+		</list>
+	</section>
 	<section name="org.eclipse.ui.dialogs.FilteredResourcesSelectionDialog">
 		<item value="true" key="ShowStatusLine"/>
 		<item value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&#x0D;&#x0A;&lt;History&gt;&#x0D;&#x0A;&lt;historyRootNode/&gt;&#x0D;&#x0A;&lt;/History&gt;" key="History"/>
