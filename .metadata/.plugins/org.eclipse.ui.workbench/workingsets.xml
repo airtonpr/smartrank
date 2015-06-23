@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <workingSetManager>
+<workingSet editPageId="org.eclipse.jdt.ui.JavaWorkingSetPage" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1435046791121_2" label="SPN" name="SPN">
+<item elementID="=MCC-Adviser" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=MCC-Adviser/src&lt;Input{CreateSpn.java" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+</workingSet>
 <workingSet aggregate="true" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1417019457185_0" label="Window Working Set" name="Aggregate for window 1417019457184"/>
 <workingSet aggregate="true" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1417026304345_1" label="Window Working Set" name="Aggregate for window 1417026304345"/>
+<mruList name="SPN"/>
 </workingSetManager>

@@ -4,4 +4,31 @@
 		<item value="452" key="DIALOG_X_ORIGIN"/>
 		<item value="248" key="DIALOG_Y_ORIGIN"/>
 	</section>
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
+		<item value="false" key="isRegEx"/>
+		<item value="" key="selection"/>
+		<item value="false" key="casesensitive"/>
+		<item value="false" key="incremental"/>
+		<item value="true" key="wrap"/>
+		<item value="false" key="wholeword"/>
+		<list key="findhistory">
+			<item value="cpu"/>
+			<item value="testFaceImgArr"/>
+			<item value="cvGetTickCount()"/>
+			<item value="&#x0A;    LOGGER.info(&quot;===========================================&quot;);&#x0A;    LOGGER.info(&quot;recognizing faces indexed from &quot; + szFileTest);&#x0A;    int i = 0;&#x0A;    int nTestFaces = 0;         // the number of test images&#x0A;    CvMat trainPersonNumMat;  // the person numbers during training&#x0A;    float[] projectedTestFace;&#x0A;    String answer;&#x0A;    int nCorrect = 0;&#x0A;    int nWrong = 0;&#x0A;    double timeFaceRecognizeStart;&#x0A;    double tallyFaceRecognizeTime;&#x0A;    float confidence = 0.0f;&#x0A;&#x0A;    // load test images and ground truth for person number&#x0A;    testFaceImgArr = loadFaceImgArray(szFileTest);&#x0A;    nTestFaces = testFaceImgArr.length;&#x0A;&#x0A;    LOGGER.info(nTestFaces + &quot; test faces loaded&quot;);&#x0A;&#x0A;    // load the saved training data&#x0A;    trainPersonNumMat = loadTrainingData();&#x0A;    if (trainPersonNumMat == null) {&#x0A;      return;&#x0A;    }&#x0A;&#x0A;    // project the test images onto the PCA subspace&#x0A;    projectedTestFace = new float[nEigens];&#x0A;    timeFaceRecognizeStart = (double) cvGetTickCount();        // Record the timing.&#x0A;&#x0A;    for (i = 0; i &lt; nTestFaces; i++) {&#x0A;      int iNearest;&#x0A;      int nearest;&#x0A;      int truth;&#x0A;&#x0A;      // project the test image onto the PCA subspace&#x0A;      cvEigenDecomposite(&#x0A;              testFaceImgArr[i], // obj&#x0A;              nEigens, // nEigObjs&#x0A;              eigenVectArr, // eigInput (Pointer)&#x0A;              0, // ioFlags&#x0A;              null, // userData&#x0A;              pAvgTrainImg, // avg&#x0A;              projectedTestFace);  // coeffs&#x0A;&#x0A;      //LOGGER.info(&quot;projectedTestFace\n&quot; + floatArrayToString(projectedTestFace));&#x0A;&#x0A;      final FloatPointer pConfidence = new FloatPointer(confidence);&#x0A;      iNearest = findNearestNeighbor(projectedTestFace, new FloatPointer(pConfidence));&#x0A;      confidence = pConfidence.get();&#x0A;      truth = personNumTruthMat.data_i().get(i);&#x0A;      nearest = trainPersonNumMat.data_i().get(iNearest);&#x0A;&#x0A;      if (nearest == truth) {&#x0A;        answer = &quot;Correct&quot;;&#x0A;        nCorrect++;&#x0A;      } else {&#x0A;        answer = &quot;WRONG!&quot;;&#x0A;        nWrong++;&#x0A;      }&#x0A;      LOGGER.info(&quot;nearest = &quot; + nearest + &quot;, Truth = &quot; + truth + &quot; (&quot; + answer + &quot;). Confidence = &quot; + confidence);&#x0A;    }&#x0A;    tallyFaceRecognizeTime = (double) cvGetTickCount() - timeFaceRecognizeStart;&#x0A;    if (nCorrect + nWrong &gt; 0) {&#x0A;      LOGGER.info(&quot;TOTAL ACCURACY: &quot; + (nCorrect * 100 / (nCorrect + nWrong)) + &quot;% out of &quot; + (nCorrect + nWrong) + &quot; tests.&quot;);&#x0A;      LOGGER.info(&quot;TOTAL TIME: &quot; + (tallyFaceRecognizeTime / (cvGetTickFrequency() * 1000.0 * (nCorrect + nWrong))) + &quot; ms average.&quot;);&#x0A;    }&#x0A;  "/>
+			<item value="tv = (TextView) findViewById(R.id.textView1);"/>
+			<item value="Time"/>
+			<item value="time"/>
+			<item value="clusterDependences"/>
+		</list>
+		<list key="replacehistory">
+		</list>
+	</section>
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
+		<item value="257" key="DIALOG_WIDTH"/>
+		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
+		<item value="380" key="DIALOG_HEIGHT"/>
+		<item value="563" key="DIALOG_X_ORIGIN"/>
+		<item value="119" key="DIALOG_Y_ORIGIN"/>
+	</section>
 </section>

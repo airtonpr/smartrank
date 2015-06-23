@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;ManageFile.java&apos; to &apos;FaceRecognitionAndroid/src/com.googlecode.javacv.facepreview&apos;&#x0D;&#x0A;- Original project: &apos;VirusScanningAndroid&apos;&#x0D;&#x0A;- Destination element: &apos;FaceRecognitionAndroid/src/com.googlecode.javacv.facepreview&apos;&#x0D;&#x0A;- Original element: &apos;com.example.virusscanningandroid.ManageFile.java&apos;" description="Copy compilation unit" destination="=FaceRecognitionAndroid/src&lt;com.googlecode.javacv.facepreview" element1="/src&lt;com.example.virusscanningandroid{ManageFile.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1430214452524" units="1" version="1.0"/>
+</session>

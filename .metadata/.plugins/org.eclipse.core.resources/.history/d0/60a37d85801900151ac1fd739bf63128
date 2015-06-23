@@ -1,0 +1,10 @@
+package mainpack;
+public class Test { 
+	public List<Long> methodC(Image imageOne, Image imageTwo,Image imageThree){
+		int a1 = results.add(reduceColor(imageTwo));
+		int a2 = results.add(reduceColor(imageTwo));
+		int a3 = results.add(reduceColor(imageTwo));
+		results.add(a1, a2, a3);
+		return results;
+	}
+}

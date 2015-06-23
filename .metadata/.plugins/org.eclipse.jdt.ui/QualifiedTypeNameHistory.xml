@@ -5,7 +5,6 @@
 <fullyQualifiedTypeName name="android.R"/>
 <fullyQualifiedTypeName name="android.widget.Button"/>
 <fullyQualifiedTypeName name="android.widget.TextView"/>
-<fullyQualifiedTypeName name="android.util.Log"/>
 <fullyQualifiedTypeName name="android.nfc.Tag"/>
 <fullyQualifiedTypeName name="servers.simplified_recognition_code.TestFaceRecognition"/>
 <fullyQualifiedTypeName name="com.sun.org.apache.xalan.internal.xsltc.compiler.util.ResultTreeType"/>
@@ -14,4 +13,11 @@
 <fullyQualifiedTypeName name="de.tlabs.thinkAir.queens.NQueens"/>
 <fullyQualifiedTypeName name="java.lang.System"/>
 <fullyQualifiedTypeName name="java.lang.Thread"/>
+<fullyQualifiedTypeName name="java.io.InputStream"/>
+<fullyQualifiedTypeName name="java.lang.Override"/>
+<fullyQualifiedTypeName name="advisor.main.MethodAdvisor"/>
+<fullyQualifiedTypeName name="method.advisor.ClassNode"/>
+<fullyQualifiedTypeName name="method.advisor.MethodNode"/>
+<fullyQualifiedTypeName name="method.advisor.Dependence"/>
+<fullyQualifiedTypeName name="android.util.Log"/>
 </qualifiedTypeNameHistroy>
